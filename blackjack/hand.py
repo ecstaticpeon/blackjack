@@ -1,7 +1,10 @@
 class Hand:
 
-    def __init__(self, cards):
-        self.cards = cards
+    def __init__(self):
+        self.cards = []
+
+    def add_card(self, card):
+        self.cards.append(card)
 
     def get_score(self):
         score = 0
