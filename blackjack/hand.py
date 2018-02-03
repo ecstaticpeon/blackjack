@@ -6,6 +6,9 @@ class Hand:
     def add_card(self, card):
         self.cards.append(card)
 
+    def get_cards(self):
+        return self.cards
+
     def get_score(self):
         score = 0
         number_of_soft_aces = 0
