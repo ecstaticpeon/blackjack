@@ -1,0 +1,10 @@
+# PyCharm
+.idea
+
+# Eclipse
+.project
+.pydevproject
+.settings
+
+# macOS
+.DS_Store
