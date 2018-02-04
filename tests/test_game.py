@@ -14,4 +14,13 @@ class TestGame(TestCase):
         ]
         with patch('blackjack.game.generate_deck', autospec=True, return_value=expected_card_pool):
             game = Game.create_game()
-            self.assertEqual(expected_card_pool, game.get_card_pool())
+            self.assertCountEqual(expected_card_pool, game.get_card_pool())
+
+    def test_card_pool_is_shuffled(self):
+        with patch('blackjack.game.shuffle', autospec=True) as mock_shuffle:
+            card_pool = [
+                Card(1, SUIT_SPADES),
+                Card(2, SUIT_SPADES),
+            ]
+            Game(card_pool)
+            mock_shuffle.assert_called_once_with(card_pool)

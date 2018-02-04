@@ -1,3 +1,5 @@
+from random import shuffle
+
 from .utils import generate_deck
 
 
@@ -5,6 +7,7 @@ class Game:
 
     def __init__(self, cards):
         self.card_pool = cards
+        shuffle(self.card_pool)
 
     @classmethod
     def create_game(cls):
