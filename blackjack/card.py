@@ -7,6 +7,7 @@ SUIT_SPADES = 'spades'
 
 
 class Card(namedtuple('Card', ['value', 'suit'])):
+    __slots__ = ()
 
     def __repr__(self):
         if self.value == 1:
@@ -21,20 +22,3 @@ class Card(namedtuple('Card', ['value', 'suit'])):
             value = self.value
 
         return f'{value} of {self.suit}'
-
-    def __eq__(self, other):
-        return self.value == other.value and self.suit == other.suit
-
-    def __hash__(self):
-        if self.suit == SUIT_CLUBS:
-            suit_value = 100
-        elif self.suit == SUIT_DIAMONDS:
-            suit_value = 200
-        elif self.suit == SUIT_HEARTS:
-            suit_value = 300
-        elif self.suit == SUIT_SPADES:
-            suit_value = 400
-        else:
-            raise ValueError(f'Cannot create hash for unknown suit "{self.suit}"')
-
-        return self.value + suit_value
