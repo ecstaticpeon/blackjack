@@ -2,6 +2,8 @@ class Hand:
 
     def __init__(self):
         self.cards = []
+        # A hand is soft if it has an ace which value is counted at 11 and could be reduced to 1.
+        self.is_soft = False
 
     def add_card(self, card):
         self.cards.append(card)
@@ -21,6 +23,7 @@ class Hand:
                 # Aces count as 11, or 1 if score > 21. Adjust later below.
                 value = 11
                 number_of_soft_aces += 1
+                self.is_soft = True
             else:
                 value = card.value
             score += value
@@ -29,5 +32,7 @@ class Hand:
         while score > 21 and number_of_soft_aces > 0:
             score -= 10
             number_of_soft_aces -= 1
+            if number_of_soft_aces == 0:
+                self.is_soft = False
 
         return score

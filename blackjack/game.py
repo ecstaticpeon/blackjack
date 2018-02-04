@@ -41,3 +41,8 @@ class Game:
         self.deal(self.player)
         self.deal(self.player)
         self.deal(self.dealer)
+
+    def complete_dealers_hand(self):
+        hand = self.dealer.get_hand()
+        while hand.get_score() < 17 or (hand.is_soft and hand.get_score() == 17):
+            self.deal(self.dealer)
