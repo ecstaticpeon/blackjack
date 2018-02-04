@@ -38,3 +38,11 @@ class TestGame(TestCase):
 
         self.assertEqual([card_in_deck], game.get_card_pool())
         self.assertEqual([dealt_card], player.get_hand().get_cards())
+
+    def test_start_game(self):
+        game = Game.create_game()
+        game.start()
+        player = game.get_player()
+        dealer = game.get_dealer()
+        self.assertEqual(2, len(player.get_hand().get_cards()), 'The player should be dealt 2 cards')
+        self.assertEqual(1, len(dealer.get_hand().get_cards()), 'The dealer should be dealt 1 card')
