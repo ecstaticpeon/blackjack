@@ -47,6 +47,38 @@ class TestGame(TestCase):
         self.assertEqual(2, len(player.hand.cards), 'The player should be dealt 2 cards')
         self.assertEqual(1, len(dealer.hand.cards), 'The dealer should be dealt 1 card')
 
+    def test_available_actions_during_play(self):
+        game = Game([])
+
+        self.assertEqual(
+            (game.ACTION_HIT, game.ACTION_STAND, ),
+            game.get_available_actions()
+        )
+
+    def test_available_actions_at_end_of_game(self):
+        # Player has won.
+        game = Game([])
+
+        game.player.add_card(Card(1, SUIT_SPADES))
+        game.player.add_card(Card(13, SUIT_SPADES))
+
+        self.assertEqual(
+            (),
+            game.get_available_actions()
+        )
+
+        # Player has gone bust.
+        game = Game([])
+
+        game.player.add_card(Card(10, SUIT_SPADES))
+        game.player.add_card(Card(10, SUIT_SPADES))
+        game.player.add_card(Card(10, SUIT_SPADES))
+
+        self.assertEqual(
+            (),
+            game.get_available_actions()
+        )
+
     def test_complete_dealers_hand(self):
         # Cards given to the player.
         players_cards = [

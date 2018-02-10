@@ -5,6 +5,8 @@ from .utils import generate_deck
 
 
 class Game:
+    ACTION_HIT = 'hit'
+    ACTION_STAND = 'stand'
 
     def __init__(self, cards):
         self.card_pool = cards
@@ -32,6 +34,15 @@ class Game:
         self.deal(self.player)
         self.deal(self.player)
         self.deal(self.dealer)
+
+    def get_available_actions(self):
+        if self.player.hand.get_score() >= 21:
+            return ()
+
+        return (
+            self.ACTION_HIT,
+            self.ACTION_STAND,
+        )
 
     def complete_dealers_hand(self):
         hand = self.dealer.hand
