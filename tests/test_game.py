@@ -163,7 +163,7 @@ class TestGame(TestCase):
         game = Game([])
         game.player.add_card(Card(10, SUIT_SPADES))
         game.dealer.add_card(Card(10, SUIT_SPADES))
-        self.assertEqual(None, game.get_winner())
+        self.assertIsNone(game.get_winner())
 
     def test_bust_hand_cannot_win(self):
         # Dealer is bust.
@@ -202,3 +202,15 @@ class TestGame(TestCase):
         game.dealer.add_card(Card(13, SUIT_SPADES))
 
         self.assertEqual(game.player, game.get_winner())
+
+        # Player may have 21 points without having a blackjack.
+        game = Game([])
+
+        game.player.add_card(Card(9, SUIT_SPADES))
+        game.player.add_card(Card(10, SUIT_SPADES))
+        game.player.add_card(Card(2, SUIT_SPADES))
+
+        game.dealer.add_card(Card(1, SUIT_SPADES))
+        game.dealer.add_card(Card(13, SUIT_SPADES))
+
+        self.assertIsNone(game.get_winner(), 'Game should be a draw')
