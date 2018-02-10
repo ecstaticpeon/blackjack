@@ -20,15 +20,6 @@ class Game:
         """
         return cls(cards=generate_deck())
 
-    def get_card_pool(self):
-        return self.card_pool
-
-    def get_player(self):
-        return self.player
-
-    def get_dealer(self):
-        return self.dealer
-
     def shuffle_deck(self):
         shuffle(self.card_pool)
 
@@ -43,6 +34,6 @@ class Game:
         self.deal(self.dealer)
 
     def complete_dealers_hand(self):
-        hand = self.dealer.get_hand()
+        hand = self.dealer.hand
         while hand.get_score() < 17 or (hand.is_soft and hand.get_score() == 17):
             self.deal(self.dealer)

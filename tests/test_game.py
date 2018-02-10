@@ -15,7 +15,7 @@ class TestGame(TestCase):
         ]
         with patch('blackjack.game.generate_deck', autospec=True, return_value=expected_card_pool):
             game = Game.create_game()
-            self.assertCountEqual(expected_card_pool, game.get_card_pool())
+            self.assertCountEqual(expected_card_pool, game.card_pool)
 
     def test_card_pool_is_shuffled(self):
         with patch('blackjack.game.shuffle', autospec=True) as mock_shuffle:
@@ -36,16 +36,16 @@ class TestGame(TestCase):
 
         game.deal(player)
 
-        self.assertEqual([card_in_deck], game.get_card_pool())
-        self.assertEqual([dealt_card], player.get_hand().get_cards())
+        self.assertEqual([card_in_deck], game.card_pool)
+        self.assertEqual([dealt_card], player.hand.cards)
 
     def test_start_game(self):
         game = Game.create_game()
         game.start()
-        player = game.get_player()
-        dealer = game.get_dealer()
-        self.assertEqual(2, len(player.get_hand().get_cards()), 'The player should be dealt 2 cards')
-        self.assertEqual(1, len(dealer.get_hand().get_cards()), 'The dealer should be dealt 1 card')
+        player = game.player
+        dealer = game.dealer
+        self.assertEqual(2, len(player.hand.cards), 'The player should be dealt 2 cards')
+        self.assertEqual(1, len(dealer.hand.cards), 'The dealer should be dealt 1 card')
 
     def test_complete_dealers_hand(self):
         # Cards given to the player.
@@ -67,8 +67,8 @@ class TestGame(TestCase):
             game = Game(deck)
             game.start()
             game.complete_dealers_hand()
-            dealer = game.get_dealer()
-            self.assertEqual(dealers_cards, dealer.get_hand().get_cards())
+            dealer = game.dealer
+            self.assertEqual(dealers_cards, dealer.hand.cards)
 
     def test_complete_dealers_hand_hits_on_soft_17(self):
         # Cards given to the player.
@@ -90,8 +90,8 @@ class TestGame(TestCase):
             game = Game(deck)
             game.start()
             game.complete_dealers_hand()
-            dealer = game.get_dealer()
-            self.assertEqual(dealers_cards, dealer.get_hand().get_cards(), 'Dealer must hit on a soft 17')
+            dealer = game.dealer
+            self.assertEqual(dealers_cards, dealer.hand.cards, 'Dealer must hit on a soft 17')
 
     def test_complete_dealers_hand_does_not_hit_on_hard_17(self):
         # Cards given to the player.
@@ -113,5 +113,5 @@ class TestGame(TestCase):
             game = Game(deck)
             game.start()
             game.complete_dealers_hand()
-            dealer = game.get_dealer()
-            self.assertEqual(dealers_cards, dealer.get_hand().get_cards(), 'Dealer must not hit on a hard 17')
+            dealer = game.dealer
+            self.assertEqual(dealers_cards, dealer.hand.cards, 'Dealer must not hit on a hard 17')
