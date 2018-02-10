@@ -6,19 +6,19 @@ SUIT_CLUBS = 'clubs'
 SUIT_SPADES = 'spades'
 
 
-class Card(namedtuple('Card', ['value', 'suit'])):
+class Card(namedtuple('Card', ['rank', 'suit'])):
     __slots__ = ()
 
     def __repr__(self):
-        if self.value == 1:
-            value = 'ace'
-        elif self.value == 11:
-            value = 'jack'
-        elif self.value == 12:
-            value = 'queen'
-        elif self.value == 13:
-            value = 'king'
+        if self.rank == 1:
+            rank = 'ace'
+        elif self.rank == 11:
+            rank = 'jack'
+        elif self.rank == 12:
+            rank = 'queen'
+        elif self.rank == 13:
+            rank = 'king'
         else:
-            value = self.value
+            rank = self.rank
 
-        return f'{value} of {self.suit}'
+        return f'{rank} of {self.suit}'
