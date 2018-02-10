@@ -56,8 +56,14 @@ class BlackjackCli:
 
         winner = game.get_winner()
         if winner == game.player:
+            if game.player.hand.is_blackjack():
+                print('Blackjack!!\n')
+            elif game.dealer.hand.is_bust():
+                print('The dealer has busted!\n')
             print('Congratulations, you win!')
         elif winner == game.dealer:
+            if game.player.hand.is_bust():
+                print('Busted!!\n')
             print('Oh no, the dealer won :(…')
         else:
             print('This is a draw!')
