@@ -49,7 +49,7 @@ class BlackjackCli:
         print('\n')
 
         self.display_players_hand(game)
-        if not game.player.hand.is_bust():
+        if not game.player.hand.is_bust() and not game.player.hand.is_blackjack():
             self.display_dealers_hand(game)
 
         print('\n')
