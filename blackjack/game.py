@@ -37,3 +37,18 @@ class Game:
         hand = self.dealer.hand
         while hand.get_score() < 17 or (hand.is_soft and hand.get_score() == 17):
             self.deal(self.dealer)
+
+    def get_winner(self):
+        dealer_score = self.dealer.hand.get_score()
+        player_score = self.player.hand.get_score()
+
+        if self.player.hand.is_bust():
+            return self.dealer
+        elif self.player.hand.is_blackjack():
+            return self.player
+        elif not self.dealer.hand.is_bust() and dealer_score > player_score:
+            return self.dealer
+        elif dealer_score == player_score:
+            return None
+        else:
+            return self.player

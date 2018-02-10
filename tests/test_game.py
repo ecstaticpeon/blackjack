@@ -115,3 +115,58 @@ class TestGame(TestCase):
             game.complete_dealers_hand()
             dealer = game.dealer
             self.assertEqual(dealers_cards, dealer.hand.cards, 'Dealer must not hit on a hard 17')
+
+    def test_winner_has_highest_score(self):
+        game = Game([])
+        game.player.add_card(Card(10, SUIT_SPADES))
+        game.dealer.add_card(Card(5, SUIT_SPADES))
+        self.assertEqual(game.player, game.get_winner())
+
+        game = Game([])
+        game.player.add_card(Card(5, SUIT_SPADES))
+        game.dealer.add_card(Card(10, SUIT_SPADES))
+        self.assertEqual(game.dealer, game.get_winner())
+
+    def test_winner_for_draws(self):
+        game = Game([])
+        game.player.add_card(Card(10, SUIT_SPADES))
+        game.dealer.add_card(Card(10, SUIT_SPADES))
+        self.assertEqual(None, game.get_winner())
+
+    def test_bust_hand_cannot_win(self):
+        # Dealer is bust.
+        game = Game([])
+
+        game.player.add_card(Card(5, SUIT_SPADES))
+
+        game.dealer.add_card(Card(10, SUIT_SPADES))
+        game.dealer.add_card(Card(10, SUIT_SPADES))
+        game.dealer.add_card(Card(10, SUIT_SPADES))
+
+        self.assertEqual(game.player, game.get_winner())
+
+        # Player is bust: dealer automatically wins.
+        game = Game([])
+
+        game.player.add_card(Card(10, SUIT_SPADES))
+        game.player.add_card(Card(10, SUIT_SPADES))
+        game.player.add_card(Card(10, SUIT_SPADES))
+
+        game.dealer.add_card(Card(10, SUIT_SPADES))
+        game.dealer.add_card(Card(10, SUIT_SPADES))
+        game.dealer.add_card(Card(10, SUIT_SPADES))
+
+        self.assertEqual(game.dealer, game.get_winner())
+
+    def test_blackjack_always_wins(self):
+        # If a player has a blackjack (e.g. their two first cards total
+        # 21 points) they automatically win.
+        game = Game([])
+
+        game.player.add_card(Card(1, SUIT_SPADES))
+        game.player.add_card(Card(13, SUIT_SPADES))
+
+        game.dealer.add_card(Card(1, SUIT_SPADES))
+        game.dealer.add_card(Card(13, SUIT_SPADES))
+
+        self.assertEqual(game.player, game.get_winner())

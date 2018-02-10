@@ -33,3 +33,9 @@ class Hand:
                 self.is_soft = False
 
         return score
+
+    def is_bust(self):
+        return self.get_score() > 21
+
+    def is_blackjack(self):
+        return self.get_score() == 21 and len(self.cards) == 2
